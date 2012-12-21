@@ -1,0 +1,39 @@
+<div class="page-header">
+  <h1>Section List</h1>
+</div>
+<form class="form-horizontal" method="post" action="/update">
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Update ALL</button>
+    <a class="btn" href="/new">New Section</a>
+  </div>
+
+  <% @sections.each do |title, configs| %>
+  <div id=<%= title%>>
+    <h2 style="display: inline-block; "><%= title %></h2>
+    <a class="btn btn-mini modify-name" style="margin-bottom: 10px;">Modify Name</a>
+    <a class="btn btn-danger btn-mini remove-section" style="margin-bottom: 10px;" href="#" id="remove-<%=title%>" data-original-title="Are you sure?" data-content="This section will be destroyed if you click this">Remove <%=title%></a>
+
+    <div class="control-group hide" style="display: none">
+      <label class="control-label">New Name</label>
+      <div class="controls">
+        <input type="text" value=<%= title %> class="input-xlarge"name=sections[<%= title%>][new_title]>
+        <p class="help-block">Input the new name for the section here. If you leave the text box as original, the  section name will not be updated.</p>
+      </div>
+    </div>
+    
+    <% configs.each do |k, v| %>
+      <div class="control-group">
+        <label class="control-label"><%= KEYS[k] %></label>
+        <div class="controls">
+          <input type="text" value=<%= v %> class="input-xlarge" name=sections[<%= title %>][<%= k%>]>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <% end %>
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">Update ALL</button>
+    <a class="btn" href="/new">New Section</a>
+  </div>
+</form>

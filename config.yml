@@ -1,0 +1,17 @@
+path:
+  ini: /home/hegwin/Downloads/clients_config.ini
+  log_prefix: /home/hegwin/monitor_log/
+
+map:
+  PathtoMonitor: PathtoMonitor
+  ServerHostIP: ServerHostIP
+  ServerHostPort: ServerHostPort
+  UserID: UserID
+  Password: Password
+  TestString: TestString
+  SuccessEMailAddress: SuccessEMailAddress
+  SuccessEMailText: SuccessEMailText
+  FailureEmailAddress: FailureEmailAddress
+  TestEmailAddress: TestEmailAddress
+  ArchivePath: ArchivePath
+  ToBeActionedDirectory: ToBeActionedDirectory
