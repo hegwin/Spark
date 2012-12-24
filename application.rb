@@ -55,10 +55,10 @@ post '/update' do
       ini_file[section_title] = v.reject {|k, v| k == "new_title"}
     end
     ini_file.save
-    redirect '/index', :success => "Sections updated successfully"
+    redirect '/sections', :success => "Sections updated successfully"
   rescue
-    FileUtils.cp INI_PATH.gsub("_backup$",''), INI_PATH
-    redirect '/index', :error => "Failed to update, nothing changed"
+    FileUtils.cp INI_PATH.gsub(/_backup$/,''), INI_PATH
+    redirect '/sections', :error => "Failed to update, nothing changed"
   end
 end
 
@@ -70,7 +70,7 @@ post '/create' do
   ini_file = IniFile.load(INI_PATH)
   ini_file[params['section_title']] = params['section']
   if ini_file.save
-    redirect '/index', :success => "Section #{params['section_title']} has been created successfully"
+    redirect '/sections', :success => "Section #{params['section_title']} has been created successfully"
   end
 end
 
