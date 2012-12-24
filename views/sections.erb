@@ -16,7 +16,7 @@
     <div class="control-group hide" style="display: none">
       <label class="control-label">New Name</label>
       <div class="controls">
-        <input type="text" value=<%= title %> class="input-xlarge"name=sections[<%= title%>][new_title]>
+        <input type="text" value=<%= title %> class="input-xlarge" name=sections[<%= title%>][new_title]>
         <p class="help-block">Input the new name for the section here. If you leave the text box as original, the  section name will not be updated.</p>
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div class="control-group">
         <label class="control-label"><%= KEYS[k] %></label>
         <div class="controls">
-          <input type="text" value=<%= v %> class="input-xlarge" name=sections[<%= title %>][<%= k%>]>
+          <input type="text" class="input-xlarge" name=sections[<%= title %>][<%= k%>] value=<%= v %>>
         </div>
       </div>
     <% end %>

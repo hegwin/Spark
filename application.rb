@@ -57,7 +57,7 @@ post '/update' do
     ini_file.save
     redirect '/sections', :success => "Sections updated successfully"
   rescue
-    FileUtils.cp INI_PATH.gsub(/_backup$/,''), INI_PATH
+    FileUtils.cp INI_PATH.gsub(/.ini/, '.ini_backup'), INI_PATH
     redirect '/sections', :error => "Failed to update, nothing changed"
   end
 end
