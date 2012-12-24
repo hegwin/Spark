@@ -14,21 +14,23 @@
 
 ## Install the Project
   1. Get the codes. The structure of the project is under below.
+
 ```
-|--aplication.rb
-|--config.yml
-|--Gemfile
-|--README.md
-|--lib
-|  |--x_log.rb
-|--public
-|  |--CSS and JS here
-|--views
-|  |--layout.erb
-|  |--logs.erb
-|  |--new.erb
-|  |--sections.erb
+  |--aplication.rb
+  |--config.yml
+  |--Gemfile
+  |--README.md
+  |--lib
+  |  |--x_log.rb
+  |--public
+  |  |--CSS and JS here
+  |--views
+  |  |--layout.erb
+  |  |--logs.erb
+  |  |--new.erb
+  |  |--sections.erb
 ```
+
   2. Edit the config.yml in project directory
     1. Where is your SFTP monitior confugration file? Replace path#ini (line #2) with the .ini configuration file path
     2. Where do you put your log files? Repalce path#log_prefix (line#3) with the directory of log files
@@ -41,4 +43,4 @@
   2. Visit `http://localhost:4567` in your browser
 
 ## System Configuration
-If needed, do some configuration to run this project when the server start up.
+If needed, do some configuration to run this project automatically when the server start up.
