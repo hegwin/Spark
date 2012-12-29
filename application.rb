@@ -36,6 +36,10 @@ helpers do
   end
 end
 
+use Rack::Auth::Basic do |username, password|
+  [username, password] == ['admin', 'pharmmd200']
+end
+
 get '/sections' do
   @sections = IniFile.load(INI_PATH).to_h
   erb :sections
