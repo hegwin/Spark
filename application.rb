@@ -11,9 +11,13 @@ configure do
 # loading configures
   configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
   INI_PATH = configures["path"]["ini"]
-  FileUtlis.touch INI_PATH unless File.exist? INI_PATH
+  SCHEDULE_PATH = configures["path"]["schedule"]
   LOG_PATH_PREFIX = configures["path"]["log_prefix"]
-  KEYS = configures["map"]
+  CLIENT_KEYS = configures["map"]["client"]
+  SCHEDULE_KEYS = configures["map"]["schedule"]
+
+  FILE_TYPE= %w[communication dtp medication pdf].sort
+  FREQUENCE = %w[daily weekly monthly]
 
 # settings
   enable :sessions
@@ -100,4 +104,18 @@ get '/logs' do
     @error_info = "Log: #{log_file} not found"
   end
   erb :logs
+end
+
+get '/schedules' do
+  erb :'schedules/index'
+end
+
+get '/schedules/new' do
+  ini_file = IniFile.load(INI_PATH)
+  @clients = ini_file.sections
+  erb :'schedules/new'
+end
+
+post '/schedules/create' do
+  pa
 end

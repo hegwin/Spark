@@ -1,6 +1,7 @@
 <div class="page-header">
   <h1>Create New Section</h1>
 </div>
+<div class="form">
   <form class="form-horizontal" method="post" action="/create">
 
     <div class="control-group">
@@ -11,9 +12,9 @@
       </div>
     </div>
 
-    <% KEYS.each do |k, v| %>
+    <% CLIENT_KEYS.each do |k, v| %>
       <div class="control-group">
-        <label class="control-label"><%= KEYS[k] %></label>
+        <label class="control-label"><%= CLIENT_KEYS[k] %></label>
         <div class="controls">
           <input type="text" class="input-xlarge" name=section[<%= k%>]>
         </div>
@@ -22,8 +23,8 @@
 
     <div class="form-actions">
       <button class="btn btn-primary" type="submit">Create</button>
-      <a class="btn" href="/index">Back</a>
+      <a class="btn" href="/sections">Back</a>
     </div>
 
   </form>
-</div>
+<div>

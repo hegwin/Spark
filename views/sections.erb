@@ -23,7 +23,7 @@
     
     <% configs.each do |k, v| %>
       <div class="control-group">
-        <label class="control-label"><%= KEYS[k] %></label>
+        <label class="control-label"><%= CLIENT_KEYS[k] %></label>
         <div class="controls">
           <input type="text" class="input-xlarge" name=sections[<%= title %>][<%= k%>] value=<%= v %>>
         </div>

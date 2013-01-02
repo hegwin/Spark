@@ -1,17 +1,26 @@
 path:
   ini: /home/hegwin/Downloads/clients_config.ini
   log_prefix: /home/hegwin/monitor_log/
+  schedule: /home/hegwin/schedule.ini
 
 map:
-  PathtoMonitor: PathtoMonitor
-  ServerHostIP: ServerHostIP
-  ServerHostPort: ServerHostPort
-  UserID: UserID
-  Password: Password
-  TestString: TestString
-  SuccessEMailAddress: SuccessEMailAddress
-  SuccessEMailText: SuccessEMailText
-  FailureEmailAddress: FailureEmailAddress
-  TestEmailAddress: TestEmailAddress
-  ArchivePath: ArchivePath
-  ToBeActionedDirectory: ToBeActionedDirectory
+  client:
+    PathtoMonitor: PathtoMonitor
+    ServerHostIP: ServerHostIP
+    ServerHostPort: ServerHostPort
+    UserID: UserID
+    Password: Password
+    TestString: TestString
+    SuccessEMailAddress: SuccessEMailAddress
+    SuccessEMailText: SuccessEMailText
+    FailureEmailAddress: FailureEmailAddress
+    TestEmailAddress: TestEmailAddress
+    ArchivePath: ArchivePath
+    ToBeActionedDirectory: ToBeActionedDirectory
+  schedule:
+    ClientID: ClientID
+    FileType: FileType
+    Frequence: Frequence
+    ExecuteAt: ExecuteAt
+    StartAt: StartAt
+    Status: Status
