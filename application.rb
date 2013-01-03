@@ -78,7 +78,7 @@ post '/create' do
   ini_file = IniFile.load(INI_PATH)
   ini_file[params['section_title']] = params['section']
   if ini_file.save
-    redirect '/sections', :success => "Section #{params['section_title']} has been created successfully"
+    redirect '/sections', :success => "Section #{params['section_title']} has been successfully created"
   end
 end
 
@@ -107,15 +107,33 @@ get '/logs' do
 end
 
 get '/schedules' do
+  @schedules = IniFile.load(SCHEDULE_PATH).to_h
   erb :'schedules/index'
 end
 
 get '/schedules/new' do
-  ini_file = IniFile.load(INI_PATH)
-  @clients = ini_file.sections
+  client_file = IniFile.load(INI_PATH)
+  @clients = client_file.sections
   erb :'schedules/new'
 end
 
 post '/schedules/create' do
-  pa
+  schedules = IniFile.load(SCHEDULE_PATH)
+  id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
+  params["schedule"]["ExecuteAt"] = params["schedule"]["ExecuteAt"].join(",")
+  schedules[id] = params["schedule"]
+  if schedules.save
+    redirect '/schedules', :success => "Schedule has been successfully created"
+  end
+end
+
+post '/schedules/delete' do
+  schedules = IniFile.load(SCHEDULE_PATH)
+  schedules.delete_section(params[:id])
+  if schedules.save
+    redirect '/schedules', :success => "Schedule has been successfully destroyed"
+  end
+end
+
+get '/schedules/:id/edit' do
 end

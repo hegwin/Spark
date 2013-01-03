@@ -14,5 +14,6 @@ jQuery(document).ready(function () {
     })    
   })
   $("a.remove-section").popover()
+  $("button.destroy-schedule").popover()
   $("input.datepicker").datepicker({format: 'yyyy-mm-dd'})
 })

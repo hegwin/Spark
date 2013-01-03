@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h1>Schedules List</h1>
+</div>
+<table class="table table-striped">
+  <tr>
+    <th>Client</th>
+    <th>File Type</th>
+    <th>Frequence</th>
+    <th>Execute Time</th>
+    <th>Start Time</th>
+    <th>Status</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  <% @schedules.each do |id, schedule| %>
+    <tr>
+      <td><%= schedule["ClientID"] %></td>
+      <td><%= schedule["FileType"] %></td>
+      <td><%= schedule["Frequence"] %></td>
+      <td><%= schedule["ExecuteAt"] %></td>
+      <td><%= schedule["StartAt"] %></td>
+      <td><%= schedule["Status"] %></td>
+      <td><a href="/schedules/<%= id%>/edit" class="btn btn-mini btn-primary">Update</a></td>
+      <td>
+        <form action="/schedules/delete" method="post" style="margin: 0">
+          <input name="id" value="<%= id%>" type="hidden" />
+          <button class="btn btn-danger btn-mini destroy-schedule" id="<%= id%>" data-original-title="Are you sure?" data-content="This schedule will be destroyed.">Destroy</a></button>
+        </form>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<div class="form-actions">
+  <a class="btn" href="/schedules/new">New Schedule</a>
+</div>
