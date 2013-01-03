@@ -6,7 +6,7 @@
       <div class="controls">
         <select name="schedule[ClientID]">
           <option>Please select...</option>
-          <%= generate_options(@clients) %>
+          <%= generate_options(@clients, @schedule["ClientID"]) %>
         </select>
       </div>
     </div>
@@ -16,7 +16,7 @@
       <div class="controls">
         <select name="schedule[FileType]">
           <option>Please select...</option>
-          <%= generate_options(FILE_TYPE) %>
+          <%= generate_options(FILE_TYPE, @schedule["FileType"]) %>
         </select>
       </div>
     </div>
@@ -26,7 +26,7 @@
       <div class="controls">
         <select name="schedule[Frequence]">
           <option>Please select...</option>
-          <%= generate_options(FREQUENCE) %>
+          <%= generate_options(FREQUENCE, @schedule["Frequence"]) %>
         </select>
       </div>
     </div>
@@ -34,8 +34,8 @@
     <div class="control-group">
       <label class="control-label" for="ExecuteAt">ExecuteAt</label>
       <div class="controls">
-        <select name="schedule[ExecuteAt][]" multiple="true" size="6">
-          <%= generate_options((1..31).to_a) %>
+        <select name="schedule[ExecuteAt][]" multiple="true" size="7">
+          <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteAt"]) ) %>
         </select>
         <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
       </div>
@@ -44,7 +44,7 @@
     <div class="control-group">
       <label class="control-label" for="StartAt">StartAt</label>
       <div class="controls">
-        <input type="text" class="input-big datepicker" name="schedule[StartAt]">
+        <input type="text" class="input-big datepicker" name="schedule[StartAt]" value=<%= @schedule['StartAt'] || '' %>>
       </div>
     </div>
     
@@ -52,13 +52,13 @@
       <label class="control-label" for="Status">Status</label>
       <div class="controls">
         <select name="schedule[Status]">
-          <%= generate_options(%w[true false]) %>
+          <%= generate_options(%w[true false], @schedule["Status"]) %>
         </select>
       </div>
     </div>
 
     <div class="form-actions">
-      <button class="btn btn-primary" type="submit">Create</button>
+      <button class="btn btn-primary" type="submit"><%= @schedule.size == 0 ? "Create" : "Update"%></button>
       <a class="btn" href="/schedules">Back</a>
     </div>
 

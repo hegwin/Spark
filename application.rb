@@ -30,13 +30,26 @@ helpers do
     "<div class='alert alert-#{m[0].to_s}'><a class='close' data-dismiss='alert' href='#'>&times;</a>#{m[1]}</div>"
   end
 
-  def generate_options(array)
-    array.map {|e| %Q{ <option value='#{e}'>#{e}</option> } }.join
+  def generate_options(array, selected=nil)
+    #array.map {|e| %Q{<option value='#{e}'>#{e}</option>} }.join
+    selected = [selected] if !selected.is_a? Array
+    options = []
+    array.each do |e|
+      option = %Q{<option value='#{e}'>#{e}</option>}
+      option.insert(8, %Q{selected='selected' }) if selected.include? e
+      options << option
+    end
+    options.join
   end
 
   def show_status(status)
     tag = status=="success" ? 'success' : 'important'
     %Q{ <span class='label label-#{tag}'>#{status}</span>}
+  end
+
+  def split_for_selected(array)
+    return nil if array.nil?
+    array.split(',')
   end
 end
 
@@ -114,6 +127,7 @@ end
 get '/schedules/new' do
   client_file = IniFile.load(INI_PATH)
   @clients = client_file.sections
+  @schedule = {}
   erb :'schedules/new'
 end
 
@@ -136,4 +150,8 @@ post '/schedules/delete' do
 end
 
 get '/schedules/:id/edit' do
+  client_file = IniFile.load(INI_PATH)
+  @clients = client_file.sections
+  @schedule = IniFile.load(SCHEDULE_PATH)[params[:id]]
+  erb :'schedules/edit'
 end
