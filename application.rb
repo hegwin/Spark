@@ -16,8 +16,8 @@ configure do
   CLIENT_KEYS = configures["map"]["client"]
   SCHEDULE_KEYS = configures["map"]["schedule"]
 
-  FILE_TYPE= %w[communication dtp medication pdf].sort
-  FREQUENCE = %w[daily weekly monthly]
+  FILE_TYPE= %w[communication dtp medication pdf normal].sort
+  FREQUENCE = %w[daily weekly monthly once interval]
 
 # settings
   enable :sessions
@@ -98,12 +98,12 @@ end
 get '/logs' do
   ini_file = IniFile.load(INI_PATH)
   @clients = ini_file.sections
-  datestamp = Time.now.strftime("%Y%m%d")
-  if params[:submit] == 'filter' && params[:date].gsub(/\D/,'') =~ /\d/
-    datestamp = params[:date].gsub(/\D/, '')
+  datestamp = Time.now.strftime("%Y-%m-%d")
+  if params[:submit] == 'filter' && params[:date] =~ /\d{4}-\d{2}-\d{2}/
+    datestamp = params[:date]
   end
   @filter_params = {:date => datestamp, :status => (params[:status] || "all"), :client => (params[:client] || "all")}
-  log_file = File.join(LOG_PATH_PREFIX, "monitor_Transfer_#{datestamp}.log")
+  log_file = File.join(LOG_PATH_PREFIX, "monitor_Transfer_#{datestamp.gsub(/\D/,'')}.log")
   if File.exist? log_file
     @logs = XLog::Log.parse(log_file, @filter_params)
   else
@@ -127,7 +127,8 @@ end
 post '/schedules/create' do
   schedules = IniFile.load(SCHEDULE_PATH)
   id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
-  params["schedule"]["ExecuteAt"] = params["schedule"]["ExecuteAt"].join(",")
+  params["schedule"]["ExecuteDate"] = params["schedule"]["ExecuteDate"].join(",")
+  params["schedule"]["ExecuteTime"] = params["schedule"]["ExecuteTime"].join(",")
   schedules[id] = params["schedule"]
   if schedules.save
     redirect '/schedules', :success => "Schedule has been successfully created"
@@ -146,5 +147,16 @@ get '/schedules/:id/edit' do
   client_file = IniFile.load(INI_PATH)
   @clients = client_file.sections
   @schedule = IniFile.load(SCHEDULE_PATH)[params[:id]]
+  @schedule_id = params[:id]
   erb :'schedules/edit'
+end
+
+post '/schedules/update' do
+  schedules = IniFile.load(SCHEDULE_PATH)
+  params["schedule"]["ExecuteDate"] = params["schedule"]["ExecuteDate"].join(",")
+  params["schedule"]["ExecuteTime"] = params["schedule"]["ExecuteTime"].join(",")
+  schedules[params[:id]] = params["schedules"]
+  if schedules.save
+    redirect '/schedules', :success => "Schedule has been successfully update"
+  end
 end

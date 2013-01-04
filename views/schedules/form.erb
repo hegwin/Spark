@@ -1,5 +1,7 @@
 <div class="form">
-  <form class="form-horizontal" method="post" action="/schedules/create">
+  <form class="form-horizontal" method="post" action="/schedules/<%= @schedule.size == 0 ? "create" : "update"%>">
+
+  <input name="id" value="<%= @schedule_id || ''%>" type="hidden" />
 
     <div class="control-group">
       <label class="control-label" for="ClientID">ClientID</label>
@@ -32,12 +34,29 @@
     </div>
 
     <div class="control-group">
-      <label class="control-label" for="ExecuteAt">ExecuteAt</label>
+      <label class="control-label" for="ExecuteDate">ExecuteDate</label>
       <div class="controls">
-        <select name="schedule[ExecuteAt][]" multiple="true" size="7">
-          <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteAt"]) ) %>
+        <select name="schedule[ExecuteDate][]" multiple="true" size="7">
+          <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]) ) %>
         </select>
         <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="ExecuteTime">ExecuteTime</label>
+      <div class="controls">
+        <input type="text" class="input-big" name="schedule[ExecuteTime][]" value='<%= @schedule["ExecuteTime"] || ''%>'>
+      </div>
+    </div>
+
+    <div class="control-group" id="interval">
+      <label for="Interval" class="control-label">Interval</label>
+      <div class="controls">
+        <input class="input-small" name="schedule[IntervalTime]" value='<%= @schedule['IntervalTime'] %>'/>
+        <select class="input-small" name="schedule[IntervalUnit]">
+          <%= generate_options(%w[hour minute], @schedule['IntervalUnit']) %>
+        </select>
       </div>
     </div>
 
