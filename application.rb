@@ -31,15 +31,8 @@ helpers do
   end
 
   def generate_options(array, selected=nil)
-    #array.map {|e| %Q{<option value='#{e}'>#{e}</option>} }.join
     selected = [selected] if !selected.is_a? Array
-    options = []
-    array.each do |e|
-      option = %Q{<option value='#{e}'>#{e}</option>}
-      option.insert(8, %Q{selected='selected' }) if selected.include? e
-      options << option
-    end
-    options.join
+    array.map {|e| %Q{<option value='#{e}' #{selected.include?(e) ? "selected='selected'" : nil}'>#{e}</option>} }.join
   end
 
   def show_status(status)

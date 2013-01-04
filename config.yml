@@ -21,6 +21,9 @@ map:
     ClientID: ClientID
     FileType: FileType
     Frequence: Frequence
-    ExecuteAt: ExecuteAt
+    ExecuteDate: ExecuteDate
+    ExecuteTime: ExecuteTime
+    IntervalTime: InvervalTime
+    IntervalUnit: IntervalUnit
     StartAt: StartAt
     Status: Status
