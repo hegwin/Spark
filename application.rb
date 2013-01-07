@@ -18,6 +18,7 @@ configure do
 
   FILE_TYPE= %w[communication dtp medication pdf normal].sort
   FREQUENCE = %w[daily weekly monthly once interval]
+  WEEKDAYS = {"0"=> "Sunday", "1" => "Monday", "2" => "Tuesday", "3" => "Wednesday", "4" => "Thursday", "5" => "Friday", "6" => "Saturday" }
 
 # settings
   enable :sessions
@@ -30,9 +31,9 @@ helpers do
     "<div class='alert alert-#{m[0].to_s}'><a class='close' data-dismiss='alert' href='#'>&times;</a>#{m[1]}</div>"
   end
 
-  def generate_options(array, selected=nil)
+  def generate_options(array, selected=nil, name={})
     selected = [selected] if !selected.is_a? Array
-    array.map {|e| %Q{<option value='#{e}' #{selected.include?(e) ? "selected='selected'" : nil}'>#{e}</option>} }.join
+    array.map {|e| %Q{<option value='#{e}' #{selected.include?(e) ? "selected='selected'" : nil}'>#{name[e] || e}</option>} }.join
   end
 
   def show_status(status)
@@ -127,8 +128,7 @@ end
 post '/schedules/create' do
   schedules = IniFile.load(SCHEDULE_PATH)
   id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
-  params["schedule"]["ExecuteDate"] = params["schedule"]["ExecuteDate"].join(",")
-  params["schedule"]["ExecuteTime"] = params["schedule"]["ExecuteTime"].join(",")
+  params["schedule"].each { |k ,v| params["schedule"][k] = v.join(",") if v.is_a? Array}
   schedules[id] = params["schedule"]
   if schedules.save
     redirect '/schedules', :success => "Schedule has been successfully created"
@@ -153,9 +153,8 @@ end
 
 post '/schedules/update' do
   schedules = IniFile.load(SCHEDULE_PATH)
-  params["schedule"]["ExecuteDate"] = params["schedule"]["ExecuteDate"].join(",")
-  params["schedule"]["ExecuteTime"] = params["schedule"]["ExecuteTime"].join(",")
-  schedules[params[:id]] = params["schedules"]
+  params["schedule"].each { |k ,v| params["schedule"][k] = v.join(",") if v.is_a? Array}
+  schedules[params[:id]] = params["schedule"]
   if schedules.save
     redirect '/schedules', :success => "Schedule has been successfully update"
   end

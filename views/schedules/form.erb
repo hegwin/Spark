@@ -23,34 +23,30 @@
       </div>
     </div>
     
-    <div class="control-group">
+    <div class="control-group" id="frequence">
       <label class="control-label" for="Frequence">Frequence</label>
       <div class="controls">
         <select name="schedule[Frequence]">
-          <option>Please select...</option>
+          <option value="blank">Please select...</option>
           <%= generate_options(FREQUENCE, @schedule["Frequence"]) %>
         </select>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="control-group" id="execute-date" style="display: none">
       <label class="control-label" for="ExecuteDate">ExecuteDate</label>
       <div class="controls">
-        <select name="schedule[ExecuteDate][]" multiple="true" size="7">
-          <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]) ) %>
-        </select>
-        <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="control-group" id="execute-time" style="display: none">
       <label class="control-label" for="ExecuteTime">ExecuteTime</label>
       <div class="controls">
-        <input type="text" class="input-big" name="schedule[ExecuteTime][]" value='<%= @schedule["ExecuteTime"] || ''%>'>
+        <input type="text" class="input-small timepicker" name="schedule[ExecuteTime][]" value='<%= @schedule["ExecuteTime"] || ''%>'>
       </div>
     </div>
 
-    <div class="control-group" id="interval">
+    <div class="control-group" id="interval" style="display: none">
       <label for="Interval" class="control-label">Interval</label>
       <div class="controls">
         <input class="input-small" name="schedule[IntervalTime]" value='<%= @schedule['IntervalTime'] %>'/>
@@ -82,4 +78,24 @@
     </div>
 
   </form>
+</div>
+
+<div style="display: none">
+  <div id="select-weekday">
+    <select name="schedule[ExecuteDate][]" multiple="true" size="7">
+      <%= generate_options((0..6).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]), WEEKDAYS ) %>
+    </select>
+    <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
+  </div>
+
+  <div id="select-monthday">
+    <select name="schedule[ExecuteDate][]" multiple="true" size="10">
+      <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]) ) %>
+    </select>
+    <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
+  </div>
+
+  <div id="once-date">
+    <input class="input-big datepicker" name="schedule[ExecuteDate]" value=<%= @schedule['ExecuteDate'] || '' %>>
+  </div>
 </div>
