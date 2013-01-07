@@ -58,4 +58,13 @@ jQuery(document).ready(function () {
     defaultTime: 'value',
     showMeridian: false
   })
+  $('a.add-time').click(function() { 
+    $('div#execute-time .controls').append($("#add-time").html());
+    $('div#execute-time p').last().slideDown('500');
+    $('div#execute-time p .timepicker').timepicker({showMeridian: false})
+    $('a.remove-time').click(function(){$(this).parent().slideUp('200', $(this).parent().remove())})
+  })
+  $('a.remove-time').click(function(){
+    $(this).parent().remove()
+  })
 })

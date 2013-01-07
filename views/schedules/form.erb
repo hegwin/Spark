@@ -42,7 +42,20 @@
     <div class="control-group" id="execute-time" style="display: none">
       <label class="control-label" for="ExecuteTime">ExecuteTime</label>
       <div class="controls">
-        <input type="text" class="input-small timepicker" name="schedule[ExecuteTime][]" value='<%= @schedule["ExecuteTime"] || ''%>'>
+        <% if @schedule.size==0 || !@schedule["ExecuteTime"].include?(",") %>
+          <p><input type="text" class="input-small timepicker" name="schedule[ExecuteTime][]" value='<%= @schedule["ExecuteTime"] || ''%>'> <a class="btn btn-mini add-time">Add More</a></p>
+        <% elsif @schedule["ExecuteTime"].include?(",") %>
+          <% @schedule["ExecuteTime"].split(",").each_with_index do |t, i| %>
+            <p>
+              <input type="text" class="input-small timepicker" name="schedule[ExecuteTime][]" value="<%= t %>"> 
+              <% if i.zero? %>
+                <a class="btn btn-mini add-time">Add More</a>
+              <% else %>
+                <a class="btn btn-mini remove-time">Remove</a>
+              <% end %>
+            </p>
+          <% end %>
+        <% end %>
       </div>
     </div>
 
@@ -57,7 +70,7 @@
     </div>
 
     <div class="control-group">
-      <label class="control-label" for="StartAt">StartAt</label>
+      <label class="control-label" for="StartAt">Start At</label>
       <div class="controls">
         <input type="text" class="input-big datepicker" name="schedule[StartAt]" value=<%= @schedule['StartAt'] || '' %>>
       </div>
@@ -97,5 +110,9 @@
 
   <div id="once-date">
     <input class="input-big datepicker" name="schedule[ExecuteDate]" value=<%= @schedule['ExecuteDate'] || '' %>>
+  </div>
+
+  <div id="add-time">
+     <p style="display: none"><input type="text" class="input-small timepicker" name="schedule[ExecuteTime][]"> <a class="btn btn-mini remove-time">Remove</a></p>
   </div>
 </div>

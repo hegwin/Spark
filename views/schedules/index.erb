@@ -16,7 +16,7 @@
       <td><%= schedule["ClientID"] %></td>
       <td><%= schedule["FileType"] %></td>
       <td><%= schedule["Frequence"] %></td>
-      <td><%= schedule["ExecuteAt"] %></td>
+      <td><%= show_schedule_detail(schedule["Frequence"], schedule["ExecuteDate"], schedule["ExecuteTime"], schedule["IntervalTime"], schedule["IntervalUnit"]) %></td>
       <td><%= schedule["StartAt"] %></td>
       <td><%= schedule["Status"] %></td>
       <td><a href="/schedules/<%= id%>/edit" class="btn btn-mini btn-primary">Update</a></td>

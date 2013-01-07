@@ -45,6 +45,15 @@ helpers do
     return nil if array.nil?
     array.split(',')
   end
+
+  def show_schedule_detail(frequence, date, time, interval_time, interval_unit)
+    text = case frequence
+      when 'weekly' then "#{date.split(",").map{ |k| WEEKDAYS[k][0..2]}.join(",")} #{time}"
+      when 'interval' then "every #{interval_time} #{interval_unit}#{interval_time.to_i > 1 ? "s" : nil}"
+      else "#{date} #{time}"
+      end
+
+  end
 end
 
 use Rack::Auth::Basic do |username, password|
@@ -128,7 +137,7 @@ end
 post '/schedules/create' do
   schedules = IniFile.load(SCHEDULE_PATH)
   id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
-  params["schedule"].each { |k ,v| params["schedule"][k] = v.join(",") if v.is_a? Array}
+  params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
   schedules[id] = params["schedule"]
   if schedules.save
     redirect '/schedules', :success => "Schedule has been successfully created"
@@ -153,7 +162,7 @@ end
 
 post '/schedules/update' do
   schedules = IniFile.load(SCHEDULE_PATH)
-  params["schedule"].each { |k ,v| params["schedule"][k] = v.join(",") if v.is_a? Array}
+  params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
   schedules[params[:id]] = params["schedule"]
   if schedules.save
     redirect '/schedules', :success => "Schedule has been successfully update"
