@@ -23,6 +23,9 @@
   |--config.yml
   |--Gemfile
   |--README.md
+  |--config
+  |  |--config.yml
+  |  |--user.yml
   |--lib
   |  |--x_log.rb
   |--public
@@ -34,9 +37,12 @@
   |  |--sections.erb
 ```
 
-  2. Edit the config.yml in project directory
-    1. Where is your SFTP monitior confugration file? Replace path#ini (line #2) with the .ini configuration file path
-    2. Where do you put your log files? Repalce path#log_prefix (line#3) with the directory of log files
+  2. Edit the basic settings
+    1. Copy the example file to your own file
+      * Run `cp config/config.example.yml config/config.yml`
+      * And `cp config/user.example.yml config/user.yml`
+    2. Edit the lines #2~4 in config/config.yml to set where are your files
+    3. Edit config/user/yml to set HTTP authentication name and password of your own
   3. Install the necessary ruby gems. In the project directory, run `bundle install`
 
 ## Test the project
