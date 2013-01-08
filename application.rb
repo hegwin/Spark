@@ -137,12 +137,18 @@ get '/schedules/new' do
 end
 
 post '/schedules/create' do
-  schedules = IniFile.load(SCHEDULE_PATH)
-  id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
-  params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
-  schedules[id] = params["schedule"]
-  if schedules.save
+  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
+  begin
+    schedules = IniFile.load(SCHEDULE_PATH)
+    id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
+    params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
+    schedules[id] = params["schedule"]
+    schedules.save
+    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
     redirect '/schedules', :success => "Schedule has been successfully created"
+  rescue
+    FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH
+    redirect '/schedules', :error => 'Failed to create, nothing changed.'
   end
 end
 
@@ -163,10 +169,16 @@ get '/schedules/:id/edit' do
 end
 
 post '/schedules/update' do
-  schedules = IniFile.load(SCHEDULE_PATH)
-  params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
-  schedules[params[:id]] = params["schedule"]
-  if schedules.save
+  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
+  begin
+    schedules = IniFile.load(SCHEDULE_PATH)
+    params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
+    schedules[params[:id]] = params["schedule"]
+    schedules.save
+    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
     redirect '/schedules', :success => "Schedule has been successfully update"
+  rescue
+    FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH
+    redirect '/schedules', :error => 'Failed to update, nothing changed.'   
   end
 end
