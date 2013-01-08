@@ -2,3 +2,5 @@
 log/*.log
 nohup.*
 nohup
+config/config.yml
+config/user.yml

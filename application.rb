@@ -9,12 +9,14 @@ require File.join(File.dirname(__FILE__), 'lib/x_log.rb')
 
 configure do
 # loading configures
-  configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
+  configures = YAML.load(File.read(File.dirname(__FILE__) + '/config/config.yml'))
   INI_PATH = configures["path"]["ini"]
   SCHEDULE_PATH = configures["path"]["schedule"]
   LOG_PATH_PREFIX = configures["path"]["log_prefix"]
   CLIENT_KEYS = configures["map"]["client"]
   SCHEDULE_KEYS = configures["map"]["schedule"]
+
+  USER = YAML.load(File.read(File.dirname(__FILE__) + '/config/user.yml'))
 
   FILE_TYPE= %w[communication dtp medication pdf normal].sort
   FREQUENCE = %w[daily weekly monthly once interval]
@@ -57,7 +59,7 @@ helpers do
 end
 
 use Rack::Auth::Basic do |username, password|
-  [username, password] == ['admin', 'pharmmd200']
+  [username, password] == [USER['name'], USER['password']]
 end
 
 get '/sections' do

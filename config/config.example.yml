@@ -1,0 +1,29 @@
+path:
+  ini: /somewhere/clients_config.ini
+  log_prefix: /somewhere/monitor_log/
+  schedule: /somewhere/schedule.ini
+
+map:
+  client:
+    PathtoMonitor: PathtoMonitor
+    ServerHostIP: ServerHostIP
+    ServerHostPort: ServerHostPort
+    UserID: UserID
+    Password: Password
+    TestString: TestString
+    SuccessEMailAddress: SuccessEMailAddress
+    SuccessEMailText: SuccessEMailText
+    FailureEmailAddress: FailureEmailAddress
+    TestEmailAddress: TestEmailAddress
+    ArchivePath: ArchivePath
+    ToBeActionedDirectory: ToBeActionedDirectory
+  schedule:
+    ClientID: ClientID
+    FileType: FileType
+    Frequence: Frequence
+    ExecuteDate: ExecuteDate
+    ExecuteTime: ExecuteTime
+    IntervalTime: InvervalTime
+    IntervalUnit: IntervalUnit
+    StartAt: StartAt
+    Status: Status
