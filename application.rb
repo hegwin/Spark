@@ -69,6 +69,7 @@ before /\/schedules\/(create|update)/ do
   params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
   if params["schedule"]["Frequence"] != 'interval'
     params['schedule']['IntervalTime'], params['schedule']['IntervalUnit'] = '', ''
+    params['schedule']['ExecuteDate'] = '' if params["schedule"]['Frequence'] = 'daily'
   end
 end
 
