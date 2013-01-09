@@ -18,9 +18,11 @@ configure do
 
   USER = YAML.load(File.read(File.dirname(__FILE__) + '/config/user.yml'))
 
-  FILE_TYPE= %w[communication dtp medication pdf normal].sort
+  FILE_TYPE= %w[communication dtp medication pdfs normal].sort
   FREQUENCE = %w[daily weekly monthly once interval]
   WEEKDAYS = {"0"=> "Sunday", "1" => "Monday", "2" => "Tuesday", "3" => "Wednesday", "4" => "Thursday", "5" => "Friday", "6" => "Saturday" }
+  STATUS = %w[enabled disabled]
+  TIME_UNIT = %w[hour minute]
 
 # settings
   enable :sessions
@@ -73,17 +75,28 @@ end
 # REVIEW
 post '/update' do
   FileUtils.cp INI_PATH, INI_PATH.gsub(/.ini/, '.ini_backup')
+  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
   ini_file = IniFile.new(nil, filename: INI_PATH)
+  schedules = IniFile.load(SCHEDULE_PATH)
   begin
     ini_file.sections.each {|s| ini_file.delete_section s}
     params['sections'].each do |k, v|
       section_title = v['new_title']
-      ini_file[section_title] = v.reject {|k, v| k == "new_title"}
+      if v['new_title'] != v['old_title']
+        schedules.each do |section, parameter, value|
+          if parameter == "ClientID" && value == v['old_title']
+            schedules[section][parameter] = v['new_title']
+          end 
+        end
+      end
+      ini_file[section_title] = v.reject {|k, v| k =~ /new_title|old_title/}
     end
     ini_file.save
+    schedules.save
     redirect '/sections', :success => "Sections updated successfully"
   rescue
     FileUtils.cp INI_PATH.gsub(/.ini/, '.ini_backup'), INI_PATH
+    FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH
     redirect '/sections', :error => "Failed to update, nothing changed"
   end
 end

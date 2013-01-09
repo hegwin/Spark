@@ -1,7 +1,7 @@
 jQuery(document).ready(function () {
   $("a.modify-name").click(function() {
-    $(this).addClass("disabled")
-    $(this).parent().children().select("div.hide").show("slow");
+    $(this).addClass("disabled");
+    $("div.new-name", $(this).parent()).show("slow");
   })
   
   $("a.remove-section").click(function() {

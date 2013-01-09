@@ -13,11 +13,18 @@
     <a class="btn btn-mini modify-name" style="margin-bottom: 10px;">Modify Name</a>
     <a class="btn btn-danger btn-mini remove-section" style="margin-bottom: 10px;" href="#" id="remove-<%=title%>" data-original-title="Are you sure?" data-content="This section will be destroyed if you click this">Remove <%=title%></a>
 
-    <div class="control-group hide" style="display: none">
+    <div class="control-group new-name" style="display: none">
       <label class="control-label">New Name</label>
       <div class="controls">
         <input type="text" value=<%= title %> class="input-xlarge" name=sections[<%= title%>][new_title]>
-        <p class="help-block">Input the new name for the section here. If you leave the text box as original, the  section name will not be updated.</p>
+        <p class="help-block">Input the new name for the section here. If you leave the text box as original, the section name will not be updated.</p>
+      </div>
+    </div>
+
+    <div class="control-group" style="display: none">
+      <label class="control-label">Old Name</label>
+      <div class="controls">
+        <input type="text" value=<%= title %> class="input-xlarge" name=sections[<%= title%>][old_title]>
       </div>
     </div>
     

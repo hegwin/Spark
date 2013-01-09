@@ -64,7 +64,7 @@
       <div class="controls">
         <input class="input-small" name="schedule[IntervalTime]" value='<%= @schedule['IntervalTime'] %>'/>
         <select class="input-small" name="schedule[IntervalUnit]">
-          <%= generate_options(%w[hour minute], @schedule['IntervalUnit']) %>
+          <%= generate_options(TIME_UNIT, @schedule['IntervalUnit']) %>
         </select>
       </div>
     </div>
@@ -80,7 +80,7 @@
       <label class="control-label" for="Status">Status</label>
       <div class="controls">
         <select name="schedule[Status]">
-          <%= generate_options(%w[true false], @schedule["Status"]) %>
+          <%= generate_options(STATUS, @schedule["Status"]) %>
         </select>
       </div>
     </div>
