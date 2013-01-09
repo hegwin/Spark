@@ -64,6 +64,14 @@ use Rack::Auth::Basic do |username, password|
   [username, password] == [USER['name'], USER['password']]
 end
 
+before /\/schedules\/(create|update)/ do
+  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
+  params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
+  if params["schedule"]["Frequence"] != 'interval'
+    params['schedule']['IntervalTime'], params['schedule']['IntervalUnit'] = '', ''
+  end
+end
+
 get '/sections' do
   @sections = IniFile.load(INI_PATH).to_h
   erb :sections
@@ -150,11 +158,9 @@ get '/schedules/new' do
 end
 
 post '/schedules/create' do
-  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
   begin
     schedules = IniFile.load(SCHEDULE_PATH)
     id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
-    params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
     schedules[id] = params["schedule"]
     schedules.save
     FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
@@ -182,10 +188,8 @@ get '/schedules/:id/edit' do
 end
 
 post '/schedules/update' do
-  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
   begin
     schedules = IniFile.load(SCHEDULE_PATH)
-    params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
     schedules[params[:id]] = params["schedule"]
     schedules.save
     FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
