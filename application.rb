@@ -67,7 +67,9 @@ end
 before /\/schedules\/(create|update)/ do
   FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
   params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
-  if params["schedule"]["Frequence"] != 'interval'
+  if params["schedule"]["Frequence"] == 'interval'
+    params['schedule']['ExecuteDate'], params['schedule']['ExecuteTime'] = '', ''
+  else
     params['schedule']['IntervalTime'], params['schedule']['IntervalUnit'] = '', ''
     params['schedule']['ExecuteDate'] = '' if params["schedule"]['Frequence'] = 'daily'
   end
@@ -100,8 +102,8 @@ post '/update' do
       end
       ini_file[section_title] = v.reject {|k, v| k =~ /new_title|old_title/}
     end
-    ini_file.save
-    schedules.save
+    ini_file.save and schedules.save
+    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
     redirect '/sections', :success => "Sections updated successfully"
   rescue
     FileUtils.cp INI_PATH.gsub(/.ini/, '.ini_backup'), INI_PATH
@@ -115,10 +117,16 @@ get '/new' do
 end
 
 post '/create' do
-  ini_file = IniFile.load(INI_PATH)
-  ini_file[params['section_title']] = params['section']
-  if ini_file.save
+  FileUtils.cp INI_PATH, INI_PATH.gsub(/.ini/, '.ini_backup')
+  begin
+    ini_file = IniFile.load(INI_PATH)
+    ini_file[params['section_title']] = params['section']
+    ini_file.save
+    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
     redirect '/sections', :success => "Section #{params['section_title']} has been successfully created"
+  rescue
+    FileUtils.cp INI_PATH.gsub(/.ini/, '.ini_backup'), INI_PATH
+    redirect '/sections', :error => "Failed to create, nothing changed"
   end
 end
 
@@ -126,6 +134,7 @@ post '/delete' do
   ini_file = IniFile.load(INI_PATH)
   ini_file.delete_section params["title"]
   ini_file.save
+  FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
 end
 
 # REVIEW
@@ -176,6 +185,7 @@ post '/schedules/delete' do
   schedules = IniFile.load(SCHEDULE_PATH)
   schedules.delete_section(params[:id])
   if schedules.save
+    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
     redirect '/schedules', :success => "Schedule has been successfully destroyed"
   end
 end

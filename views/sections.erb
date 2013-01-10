@@ -3,7 +3,7 @@
 </div>
 <form class="form-horizontal" method="post" action="/update">
   <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Update ALL</button>
+    <button class="btn btn-primary disabled" type="submit" disabled="true">Update ALL</button>
     <a class="btn" href="/new">New Section</a>
   </div>
 
@@ -13,7 +13,7 @@
     <a class="btn btn-mini modify-name" style="margin-bottom: 10px;">Modify Name</a>
     <a class="btn btn-danger btn-mini remove-section" style="margin-bottom: 10px;" href="#" id="remove-<%=title%>" data-original-title="Are you sure?" data-content="This section will be destroyed if you click this">Remove <%=title%></a>
 
-    <div class="control-group new-name" style="display: none">
+    <div class="control-group new-name verified" style="display: none">
       <label class="control-label">New Name</label>
       <div class="controls">
         <input type="text" value=<%= title %> class="input-xlarge" name=sections[<%= title%>][new_title]>
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class="control-group" style="display: none">
+    <div class="control-group verified" style="display: none">
       <label class="control-label">Old Name</label>
       <div class="controls">
         <input type="text" value=<%= title %> class="input-xlarge" name=sections[<%= title%>][old_title]>
@@ -29,7 +29,7 @@
     </div>
     
     <% configs.each do |k, v| %>
-      <div class="control-group">
+      <div class="control-group verified">
         <label class="control-label"><%= CLIENT_KEYS[k] %></label>
         <div class="controls">
           <input type="text" class="input-xlarge" name=sections[<%= title %>][<%= k%>] value=<%= v %>>
@@ -40,7 +40,7 @@
   <% end %>
 
   <div class="form-actions">
-    <button class="btn btn-primary" type="submit">Update ALL</button>
+    <button class="btn btn-primary disabled" type="submit" disabled="true">Update ALL</button>
     <a class="btn" href="/new">New Section</a>
   </div>
 </form>

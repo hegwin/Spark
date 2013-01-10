@@ -3,43 +3,40 @@
 
   <input name="id" value="<%= @schedule_id || ''%>" type="hidden" />
 
-    <div class="control-group">
+    <div class="control-group verified">
       <label class="control-label" for="ClientID">ClientID</label>
       <div class="controls">
         <select name="schedule[ClientID]">
-          <option>Please select...</option>
           <%= generate_options(@clients, @schedule["ClientID"]) %>
         </select>
       </div>
     </div>
     
-    <div class="control-group">
+    <div class="control-group verified">
       <label class="control-label" for="FileType">FileType</label>
       <div class="controls">
         <select name="schedule[FileType]">
-          <option>Please select...</option>
           <%= generate_options(FILE_TYPE, @schedule["FileType"]) %>
         </select>
       </div>
     </div>
     
-    <div class="control-group" id="frequence">
+    <div class="control-group verified" id="frequence">
       <label class="control-label" for="Frequence">Frequence</label>
       <div class="controls">
         <select name="schedule[Frequence]">
-          <option value="blank">Please select...</option>
           <%= generate_options(FREQUENCE, @schedule["Frequence"]) %>
         </select>
       </div>
     </div>
 
-    <div class="control-group" id="execute-date" style="display: none">
+    <div class="control-group <%= @schedule.size.zero? ? '' : 'verified' %>" id="execute-date" style="display: none">
       <label class="control-label" for="ExecuteDate">ExecuteDate</label>
       <div class="controls">
       </div>
     </div>
 
-    <div class="control-group" id="execute-time" style="display: none">
+    <div class="control-group <%= @schedule.size.zero? ? '' : 'verified' %>" id="execute-time" style="display: none">
       <label class="control-label" for="ExecuteTime">ExecuteTime</label>
       <div class="controls">
         <% if @schedule.size==0 || !@schedule["ExecuteTime"].include?(",") %>
@@ -59,7 +56,7 @@
       </div>
     </div>
 
-    <div class="control-group" id="interval" style="display: none">
+    <div class="control-group <%= @schedule.size.zero? ? '' : 'verified' %>" id="interval" style="display: none">
       <label for="Interval" class="control-label">Interval</label>
       <div class="controls">
         <input class="input-small" name="schedule[IntervalTime]" value='<%= @schedule['IntervalTime'] %>'/>
@@ -69,14 +66,14 @@
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="control-group <%= @schedule.size.zero? ? '' : 'verified' %>">
       <label class="control-label" for="StartAt">Start At</label>
       <div class="controls">
         <input type="text" class="input-big datepicker" name="schedule[StartAt]" value=<%= @schedule['StartAt'] || '' %>>
       </div>
     </div>
     
-    <div class="control-group">
+    <div class="control-group verified">
       <label class="control-label" for="Status">Status</label>
       <div class="controls">
         <select name="schedule[Status]">
@@ -86,7 +83,7 @@
     </div>
 
     <div class="form-actions">
-      <button class="btn btn-primary" type="submit"><%= @schedule.size == 0 ? "Create" : "Update"%></button>
+      <button class="btn btn-primary disabled" type="submit" disabled="true"><%= @schedule.size == 0 ? "Create" : "Update"%></button>
       <a class="btn" href="/schedules">Back</a>
     </div>
 
@@ -103,7 +100,7 @@
 
   <div id="select-monthday">
     <select name="schedule[ExecuteDate][]" multiple="true" size="10">
-      <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]) ) %>
+      <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]) || "1" ) %>
     </select>
     <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
   </div>
