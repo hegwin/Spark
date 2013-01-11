@@ -3,6 +3,7 @@
 </div>
 <table class="table table-striped">
   <tr>
+    <th>ID</th>
     <th>Client</th>
     <th>File Type</th>
     <th>Frequence</th>
@@ -13,6 +14,7 @@
   </tr>
   <% @schedules.each do |id, schedule| %>
     <tr>
+      <td><%= id %></td>
       <td><%= schedule["ClientID"] %></td>
       <td><%= schedule["FileType"] %></td>
       <td><%= schedule["Frequence"] %></td>
