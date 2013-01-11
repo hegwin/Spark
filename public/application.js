@@ -16,86 +16,80 @@ jQuery(document).ready(function () {
   function valid(e, reg) {
     if(e.val().match(reg)) {
       e.parents('.control-group').removeClass('error').addClass('verified');
-      if($('div.control-group').size() == $('div.verified').size() ) { $("button[type='submit']").removeClass('disabled').removeAttr('disabled') }
     }
     else {
       e.parents('.control-group').removeClass('verified').addClass('error');
-      $("button[type='submit']").addClass('disabled').attr('disabled','true') 
     }
   }
-  $("input").blur(function() {
-    var name = $(this).attr("name")
-    if (name.match(/_title/))
-      valid($(this), /^[A-Za-z]\w+$/);
-    else if(name.match(/ServerHostPort|IntervalTime/))
-      valid($(this), /^\d+$/);
-    else if(name.match(/Password/))
-      valid($(this), /^.+$/)
+  function validAll(){
+    $("select:visible").each(function(){
+      if($(this).val()) {
+        $(this).parents('.control-group').removeClass('error').addClass('verified');
+      }
+      else {
+        $(this).parents('.control-group').removeClass('verified').addClass('error');
+      } 
+    })
+    $("input:visible").each(function(i, e){
+      var name = $(e).attr("name")
+      if (name.match(/_title/))
+        valid($(e), /^[A-Za-z]\w+$/);
+      else if(name.match(/ServerHostPort|IntervalTime/))
+        valid($(e), /^\d+$/);
+      else if(name.match(/Password/))
+        valid($(e), /^.+$/)
+      else
+        valid($(e), /^\S+$/)      
+    })
+  }
+  $("form.form-horizontal button[type='submit']").click(function(event){
+    event.preventDefault();
+    validAll();
+    if($('div.control-group:visible').size() == $('div.verified:visible').size() )
+      { $("form.form-horizontal").submit()}
     else
-      valid($(this), /^\S+$/)
+      { alert("Incorrect data. Please check your form.")}
   })
-
   function xadapt(fre){
     switch(fre) {
       case 'interval': 
-        $('div#execute-date,div#execute-time').hide().addClass('verified');
-        $('div#interval').slideDown('500').removeClass('verified');
+        $('div#execute-date,div#execute-time').hide();
+        $('div#interval').slideDown('500');
         break;
       case 'daily':
-        $('div#interval,div#execute-date').slideUp('200').addClass('verified');
-        $('div#execute-time').slideDown('500').removeClass('verified')
+        $('div#interval,div#execute-date').slideUp('200');
+        $('div#execute-time').slideDown('500');
         break;
       case 'weekly':
-        $('div#interval').hide().addClass('verified');
+        $('div#interval').hide();
         $('div#execute-date .controls *').remove();
         $('div#execute-date .controls').prepend($('#select-weekday').html())
         $('div#execute-date,div#execute-time').slideDown("500");
-        $('div#execute-date select').change(function(){
-          if($(this).val()) {
-            $(this).parents('.control-group').removeClass('error').addClass('verified');
-            if($('div.control-group').size() == $('div.verified').size() ) { $("button[type='submit']").removeClass('disabled').removeAttr('disabled') }
-          }
-          else {
-            $(this).parents('.control-group').removeClass('verified').addClass('error');
-            $("button[type='submit']").addClass('disabled').attr('disabled','true') 
-          }
-        })
         break;
       case 'once':
-        $('div#interval').hide().addClass('verified');
+        $('div#interval').hide();
         $('div#execute-date .controls *').remove();
         $("div#execute-date .controls").prepend($('#once-date').html())
         $("input.datepicker").datepicker({format: 'yyyy-mm-dd'})
-        $("input.datepicker").blur(function(){ valid($(this), /^\d{4}-\d{2}-\d{2}$/)})
-        $('div#execute-date,div#execute-time').slideDown("500").removeClass('verified');
+        $('div#execute-date,div#execute-time').slideDown("500");
         break;
       case 'monthly':
-        $('div#interval').hide().addClass('verified');
+        $('div#interval').hide();
         $('div#execute-date .controls *').remove();
         $("div#execute-date .controls").prepend($('#select-monthday').html())
         $('div#execute-date,div#execute-time').slideDown("500");
-        $('div#execute-date select').change(function(){
-          if($(this).val()) {
-            $(this).parents('.control-group').removeClass('error').addClass('verified');
-            if($('div.control-group').size() == $('div.verified').size() ) { $("button[type='submit']").removeClass('disabled').removeAttr('disabled') }
-          }
-          else {
-            $(this).parents('.control-group').removeClass('verified').addClass('error');
-            $("button[type='submit']").addClass('disabled').attr('disabled','true') 
-          }
-        })
         break;
       case 'blank':
         $('#interval, #execute-date, #execute-time').slideUp("200");
     }
   }
   $(function(){
-    if($('div#frequence select')[0])
-      { xadapt($("div#frequence select").val()) }
+    if($('div#frequence select')[0]){
+      xadapt($("div#frequence select").val()); 
+      }
   })
   $("div#frequence select").change(function() {
     xadapt($(this).val());
-    $("button[type='submit']").addClass('disabled').attr('disabled','true')
   })
   $("a.remove-section").popover()
   $("button.destroy-schedule").popover()
