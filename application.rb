@@ -71,7 +71,7 @@ before /\/schedules\/(create|update)/ do
     params['schedule']['ExecuteDate'], params['schedule']['ExecuteTime'] = '', ''
   else
     params['schedule']['IntervalTime'], params['schedule']['IntervalUnit'] = '', ''
-    params['schedule']['ExecuteDate'] = '' if params["schedule"]['Frequence'] = 'daily'
+    params['schedule']['ExecuteDate'] = '' if params["schedule"]['Frequence'] == 'daily'
   end
 end
 
