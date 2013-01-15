@@ -7,10 +7,6 @@
     <a class="close" data-dismiss="alert" href="#">&times;</a>
     <strong>Warning</strong> <%= @error_info%>
   </div>
-<% else %>
-  <div class="alert alert-info">
-    <strong>Logs For</strong> Date: <b><%=@filter_params[:date] %></b> Status: <b><%= @filter_params[:status]%></b> Client: <b><%= @filter_params[:client] %></b>
-  </div>
 <% end %>
 
 <form method="get" action="/logs" class="well form-inline">
@@ -18,14 +14,12 @@
   <input name="date" placeholder="<%= Time.now.strftime("%Y%m%d") %>" class="input-small datepicker" value="<%= @filter_params[:date] || nil%>">
   <label for="status" style="margin-left: 1em">Status</label>
   <select name="status" class="input-small">
-    <option>all</option>
-    <option value="success">Success</option>
-    <option value="fail">Fail</option>
+    <%= generate_options(%w[all success fail], @filter_params[:status], {"success" => "Success", "fail" => "Fail"}) %>
   </select>
   <label for="client" style="margin-left: 1em">Client Name</label>
   <select name="client" class="input-medium">
     <option>all</option>
-    <%= generate_options(@clients) %>
+    <%= generate_options(@clients, @filter_params[:client]) %>
     
   </select>
   <button class="btn" type="submit" name="submit" value="filter">Filter</button>
