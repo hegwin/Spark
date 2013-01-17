@@ -55,7 +55,7 @@
         cp config/config.example.yml config/config.yml
         cp config/user.example.yml config/user.yml
       ```
-    2. Edit the lines #2~4 in config/config.yml to set where are your files
+    2. Edit the lines #2~5 in config/config.yml to set where are your files. Attention, the `ini`, `schedule` and `lock_file` should be put into the same diretory as scripts.
     3. Edit config/user.yml to set HTTP authentication name and password of your own.
   3. Install the necessary ruby gems. In the project directory, run `bundle install`
 

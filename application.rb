@@ -12,6 +12,7 @@ configure do
   configures = YAML.load(File.read(File.dirname(__FILE__) + '/config/config.yml'))
   INI_PATH = configures["path"]["ini"]
   SCHEDULE_PATH = configures["path"]["schedule"]
+  LOCK_FILE = configures["path"]["lock_file"]
   LOG_PATH_PREFIX = configures["path"]["log_prefix"]
   CLIENT_KEYS = configures["map"]["client"]
   SCHEDULE_KEYS = configures["map"]["schedule"]
@@ -103,7 +104,7 @@ post '/update' do
       ini_file[section_title] = v.reject {|k, v| k =~ /new_title|old_title/}
     end
     ini_file.save and schedules.save
-    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
+    FileUtils.touch LOCK_FILE
     redirect '/sections', :success => "Sections updated successfully"
   rescue
     FileUtils.cp INI_PATH.gsub(/.ini/, '.ini_backup'), INI_PATH
@@ -122,7 +123,7 @@ post '/create' do
     ini_file = IniFile.load(INI_PATH)
     ini_file[params['section_title']] = params['section']
     ini_file.save
-    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
+    FileUtils.touch LOCK_FILE
     redirect '/sections', :success => "Section #{params['section_title']} has been successfully created"
   rescue
     FileUtils.cp INI_PATH.gsub(/.ini/, '.ini_backup'), INI_PATH
@@ -134,7 +135,7 @@ post '/delete' do
   ini_file = IniFile.load(INI_PATH)
   ini_file.delete_section params["title"]
   ini_file.save
-  FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
+  FileUtils.touch LOCK_FILE
 end
 
 # REVIEW
@@ -173,7 +174,7 @@ post '/schedules/create' do
     id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
     schedules[id] = params["schedule"]
     schedules.save
-    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
+    FileUtils.touch LOCK_FILE
     redirect '/schedules', :success => "Schedule has been successfully created"
   rescue
     FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH
@@ -185,7 +186,7 @@ post '/schedules/delete' do
   schedules = IniFile.load(SCHEDULE_PATH)
   schedules.delete_section(params[:id])
   if schedules.save
-    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
+    FileUtils.touch LOCK_FILE
     redirect '/schedules', :success => "Schedule has been successfully destroyed"
   end
 end
@@ -203,7 +204,7 @@ post '/schedules/update' do
     schedules = IniFile.load(SCHEDULE_PATH)
     schedules[params[:id]] = params["schedule"]
     schedules.save
-    FileUtils.touch File.join(LOG_PATH_PREFIX, 'monitor_schedule_update.lock')
+    FileUtils.touch LOCK_FILE
     redirect '/schedules', :success => "Schedule has been successfully update"
   rescue
     FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH

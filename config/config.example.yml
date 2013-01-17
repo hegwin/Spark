@@ -2,6 +2,7 @@ path:
   ini: /somewhere/clients_config.ini
   log_prefix: /somewhere/monitor_log/
   schedule: /somewhere/schedule.ini
+  lock_file: /somewhere/monitor_schedule_update.lock
 
 map:
   client:
