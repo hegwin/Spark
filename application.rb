@@ -97,8 +97,8 @@ post '/update' do
       section_title = v['new_title']
       if v['new_title'] != v['old_title']
         schedules.each do |section, parameter, value|
-          if parameter == "ClientID" && value == v['old_title']
-            schedules[section][parameter] = v['new_title']
+          if parameter == "ClientID" && value.split(',').include?(v['old_title'])
+            schedules[section][parameter] = value.gsub(/\b#{v['old_title']}\b/, v['new_title'])
           end 
         end
       end

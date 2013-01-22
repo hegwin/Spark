@@ -15,7 +15,7 @@
   <% @schedules.each do |id, schedule| %>
     <tr>
       <td><%= id %></td>
-      <td><%= schedule["ClientID"] %></td>
+      <td><%= schedule["ClientID"].gsub(',', '<br />') %></td>
       <td><%= schedule["FileType"] %></td>
       <td><%= schedule["Frequence"] %></td>
       <td><%= show_schedule_detail(schedule["Frequence"], schedule["ExecuteDate"], schedule["ExecuteTime"], schedule["IntervalTime"], schedule["IntervalUnit"]) %></td>

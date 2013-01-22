@@ -6,8 +6,8 @@
     <div class="control-group">
       <label class="control-label" for="ClientID">ClientID</label>
       <div class="controls">
-        <select name="schedule[ClientID]">
-          <%= generate_options(@clients, @schedule["ClientID"]) %>
+        <select name="schedule[ClientID][]" multiple="true" size="<%= @clients.size %>">
+          <%= generate_options(@clients, split_for_selected(@schedule["ClientID"])) %>
         </select>
       </div>
     </div>
