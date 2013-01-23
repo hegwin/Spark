@@ -9,6 +9,7 @@
         <select name="schedule[ClientID][]" multiple="true" size="<%= @clients.size %>">
           <%= generate_options(@clients, split_for_selected(@schedule["ClientID"])) %>
         </select>
+        <p class="help-block">Hold down the control(ctrl) or command button (on Mac) to select multiple options</p>
       </div>
     </div>
     
@@ -95,14 +96,14 @@
     <select name="schedule[ExecuteDate][]" multiple="true" size="7">
       <%= generate_options((0..6).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"]), WEEKDAYS ) %>
     </select>
-    <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
+    <p class="help-block">Hold down the control(ctrl) or command button (on Mac) to select multiple options</p>
   </div>
 
   <div id="select-monthday">
     <select name="schedule[ExecuteDate][]" multiple="true" size="10">
       <%= generate_options((1..31).to_a.map{|e| e.to_s}, split_for_selected(@schedule["ExecuteDate"])) %>
     </select>
-    <p class="help-block">Hold down the control(ctrl) or command button to select multiple options</p>
+    <p class="help-block">Hold down the control(ctrl) or command button (on Mac) to select multiple options</p>
   </div>
 
   <div id="once-date">
