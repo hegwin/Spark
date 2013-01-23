@@ -79,7 +79,7 @@ end
 
 get '/sections' do
   @sections = IniFile.load(INI_PATH).to_h
-  erb :sections
+  erb :'clients/index'
 end
 
 get '/' do
@@ -115,7 +115,7 @@ post '/update' do
 end
 
 get '/new' do
-  erb :new
+  erb :'clients/new'
 end
 
 post '/create' do
@@ -154,7 +154,7 @@ get '/logs' do
   else
     @error_info = "Log: #{log_file} not found"
   end
-  erb :logs
+  erb :'logs/index'
 end
 
 get '/schedules' do
