@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
   $("a.remove-section").click(function() {
     title = $(this).attr("id").replace("remove-", "")
     $.ajax({
-      url: "/delete",
+      url: "/clients/delete",
       data: {title: title},
       type: "POST",
       complete: function(){ $("div#" + title).slideUp("500", function(){ $("div#" + title).remove() }) } 
