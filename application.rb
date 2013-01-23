@@ -30,4 +30,5 @@ configure do
 
 # settings
   enable :sessions
+  set :views, File.dirname(__FILE__) + '/app/views'
 end
