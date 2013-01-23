@@ -29,22 +29,19 @@
   1. Get the codes, and put them into `/srv` directory, for example I put them into `/srv/sftp_monitor_spark/`. The structure of the project is under below.
 
     ```
+      |--app
+      |  |--controllers
+      |  |--helpers
+      |  |--views
       |--config
+      |  |--boot.rb
       |  |--config.yml
       |  |--user.yml
       |--lib
       |  |--x_log.rb
       |--public
       |  |--CSS and JS here
-      |--views
-      |  |--schedules
-      |  |--layout.erb
-      |  |--logs.erb
-      |  |--new.erb
-      |  |--sections.erb
-      |--aplication.rb
       |--config.ru
-      |--config.yml
       |--Gemfile
       |--README.md
     ```
@@ -60,9 +57,9 @@
   3. Install the necessary ruby gems. In the project directory, run `bundle install`
 
 ## Test the Project
-  1. Run `ruby application.rb -e production` in project directory. This will start the program on your localhost with port `4567` as default
+  1. Run `ruby config/boot.rb -e production` in project directory. This will start the program on your localhost with port `4567` as default
     * Here are some other options for this command `ruby application.rb [-h] [-x] [-e ENVIRONMENT] [-p PORT] [-o HOST] [-s HANDLER]`
-    * More detailed description for the options: `ruby application --help`
+    * More detailed description for the options: `ruby config/boot.rb --help`
   2. Visit `http://localhost:4567` in your browser
 
 ## Deploy in Production Model with Nginx
