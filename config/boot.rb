@@ -12,7 +12,7 @@ end
 
 configure do
 # loading configures
-  configures = YAML.load(File.read(File.dirname(__FILE__) + '/config/config.yml'))
+  configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
   INI_PATH = configures["path"]["ini"]
   SCHEDULE_PATH = configures["path"]["schedule"]
   LOCK_FILE = configures["path"]["lock_file"]
@@ -20,7 +20,7 @@ configure do
   CLIENT_KEYS = configures["map"]["client"]
   SCHEDULE_KEYS = configures["map"]["schedule"]
 
-  USER = YAML.load(File.read(File.dirname(__FILE__) + '/config/user.yml'))
+  USER = YAML.load(File.read(File.dirname(__FILE__) + '/user.yml'))
 
   FILE_TYPE= %w[all communication dtp medication pdfs normal].sort
   FREQUENCE = %w[daily weekly monthly once interval]
@@ -30,5 +30,6 @@ configure do
 
 # settings
   enable :sessions
-  set :views, File.dirname(__FILE__) + '/app/views'
+  set :root, File.expand_path(".")
+  set :views, settings.root + '/app/views'
 end
