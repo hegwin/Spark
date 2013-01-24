@@ -1,6 +1,6 @@
 # REVIEW
 get '/logs' do
-  ini_file = IniFile.load(INI_PATH)
+  ini_file = IniFile.load(CLIENTS_FILE)
   @clients = ini_file.sections
   datestamp = Time.now.strftime("%Y-%m-%d")
   if params[:submit] == 'filter' && params[:date] =~ /\d{4}-\d{2}-\d{2}/

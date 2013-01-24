@@ -1,5 +1,5 @@
 before /\/schedules\/(create|update)/ do
-  FileUtils.cp SCHEDULE_PATH, SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup')
+  FileUtils.cp SCHEDULES_PATH, SCHEDULES_PATH.gsub(/\.ini/, '.ini_backup')
   params["schedule"].each { |k ,v| params["schedule"][k] = v.sort.join(",") if v.is_a? Array}
   if params["schedule"]["Frequence"] == 'interval'
     params['schedule']['ExecuteDate'], params['schedule']['ExecuteTime'] = '', ''
@@ -10,12 +10,12 @@ before /\/schedules\/(create|update)/ do
 end
 
 get '/schedules' do
-  @schedules = IniFile.load(SCHEDULE_PATH).to_h
+  @schedules = IniFile.load(SCHEDULES_PATH).to_h
   erb :'schedules/index'
 end
 
 get '/schedules/new' do
-  client_file = IniFile.load(INI_PATH)
+  client_file = IniFile.load(CLIENTSS_FILE)
   @clients = client_file.sections
   @schedule = {}
   erb :'schedules/new'
@@ -23,20 +23,20 @@ end
 
 post '/schedules/create' do
   begin
-    schedules = IniFile.load(SCHEDULE_PATH)
+    schedules = IniFile.load(SCHEDULES_PATH)
     id = (schedules.sections.map{|e|e.to_i}.max || 0) + 1
     schedules[id] = params["schedule"]
     schedules.save
     FileUtils.touch LOCK_FILE
     redirect '/schedules', :success => "Schedule has been successfully created"
   rescue
-    FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH
+    FileUtils.cp SCHEDULES_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULES_PATH
     redirect '/schedules', :error => 'Failed to create, nothing changed.'
   end
 end
 
 post '/schedules/delete' do
-  schedules = IniFile.load(SCHEDULE_PATH)
+  schedules = IniFile.load(SCHEDULES_PATH)
   schedules.delete_section(params[:id])
   if schedules.save
     FileUtils.touch LOCK_FILE
@@ -45,22 +45,22 @@ post '/schedules/delete' do
 end
 
 get '/schedules/:id/edit' do
-  client_file = IniFile.load(INI_PATH)
+  client_file = IniFile.load(CLIENTS_FILE)
   @clients = client_file.sections
-  @schedule = IniFile.load(SCHEDULE_PATH)[params[:id]]
+  @schedule = IniFile.load(SCHEDULES_PATH)[params[:id]]
   @schedule_id = params[:id]
   erb :'schedules/edit'
 end
 
 post '/schedules/update' do
   begin
-    schedules = IniFile.load(SCHEDULE_PATH)
+    schedules = IniFile.load(SCHEDULES_PATH)
     schedules[params[:id]] = params["schedule"]
     schedules.save
     FileUtils.touch LOCK_FILE
     redirect '/schedules', :success => "Schedule has been successfully update"
   rescue
-    FileUtils.cp SCHEDULE_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULE_PATH
+    FileUtils.cp SCHEDULES_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULES_PATH
     redirect '/schedules', :error => 'Failed to update, nothing changed.'   
   end
 end

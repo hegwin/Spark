@@ -13,8 +13,8 @@ end
 configure do
 # loading configures
   configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
-  INI_PATH = configures["path"]["ini"]
-  SCHEDULE_PATH = configures["path"]["schedule"]
+  CLIENTS_FILE = configures["path"]["clients_file"]
+  SCHEDULES_PATH = configures["path"]["schedules_file"]
   LOCK_FILE = configures["path"]["lock_file"]
   LOG_PATH_PREFIX = configures["path"]["log_prefix"]
   CLIENT_KEYS = configures["map"]["client"]
