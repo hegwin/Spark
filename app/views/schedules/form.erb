@@ -16,9 +16,10 @@
     <div class="control-group">
       <label class="control-label" for="FileType">FileType</label>
       <div class="controls">
-        <select name="schedule[FileType]">
-          <%= generate_options(FILE_TYPE, @schedule["FileType"]) %>
+        <select name="schedule[FileType][]" multiple="true" size=6>
+          <%= generate_options(FILE_TYPE, split_for_selected(@schedule["FileType"])) %>
         </select>
+        <p class="help-block">Hold down the control(ctrl) or command button (on Mac) to select multiple options</p>
       </div>
     </div>
     

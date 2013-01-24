@@ -22,7 +22,7 @@ configure do
 
   USER = YAML.load(File.read(File.dirname(__FILE__) + '/user.yml'))
 
-  FILE_TYPE= %w[all communication dtp medication pdfs normal].sort
+  FILE_TYPE= %w[communication dtp medication pdfs normal test].sort
   FREQUENCE = %w[daily weekly monthly once interval]
   WEEKDAYS = {"0"=> "Sunday", "1" => "Monday", "2" => "Tuesday", "3" => "Wednesday", "4" => "Thursday", "5" => "Friday", "6" => "Saturday" }
   STATUS = %w[enabled disabled]
