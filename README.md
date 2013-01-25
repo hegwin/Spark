@@ -30,9 +30,9 @@
 
     ```
       |--app
-      |  |--controllers
-      |  |--helpers
-      |  |--views
+      |  |--controllers/
+      |  |--helpers/
+      |  |--views/
       |--config
       |  |--boot.rb
       |  |--config.yml
@@ -41,6 +41,10 @@
       |  |--x_log.rb
       |--public
       |  |--CSS and JS here
+      |--spec
+      |  |--controllers/
+      |  |--fixtures/
+      |  |--spec_helper.rb
       |--config.ru
       |--Gemfile
       |--README.md
