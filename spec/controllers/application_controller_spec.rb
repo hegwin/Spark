@@ -17,4 +17,17 @@ describe 'ApplicationController' do
     get '/schedules'
     last_response.status.should == 401
   end
+
+  it "should fail with bad credentials" do
+    authorize 'bad', 'bad'
+    get '/schedules'
+    last_response.status.should == 401
+  end
+
+  it "should visit successfully with proper credentials" do
+    authorize 'thrall', 'horde'
+    get '/schedules'
+    last_response.should be_ok
+    last_response.body.should =~ /Schedules List/
+  end
 end

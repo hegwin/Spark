@@ -21,8 +21,10 @@ configure do
 # loading configures
   if test? 
     configures = YAML.load(ERB.new(File.read(settings.root + '/spec/fixtures/config/config.yml')).result)
+    USER = YAML.load(File.read(settings.root + '/spec/fixtures/config/user.yml'))
   else
     configures = YAML.load(File.read(settings.root + '/config/config.yml'))
+    USER = YAML.load(File.read(File.dirname(__FILE__) + '/user.yml'))
   end
   CLIENTS_FILE = configures["path"]["clients_file"]
   SCHEDULES_PATH = configures["path"]["schedules_file"]
@@ -31,7 +33,6 @@ configure do
   CLIENT_KEYS = configures["map"]["client"]
   SCHEDULE_KEYS = configures["map"]["schedule"]
 
-  USER = YAML.load(File.read(File.dirname(__FILE__) + '/user.yml'))
 
   FILE_TYPE= %w[communication dtp medication pdfs normal test].sort
   FREQUENCE = %w[daily weekly monthly once interval]
