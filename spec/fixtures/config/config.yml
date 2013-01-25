@@ -1,0 +1,31 @@
+path:
+  <% operated_files_path = settings.root + '/spec/fixtures/operated_files' %>
+  clients_file: <%= operated_files_path + '/clients.ini' %>
+  log_prefix: <%= operated_files_path + '/monitor_log/' %>
+  schedules_file: <%= operated_files_path + '/schedules.ini' %>
+  lock_file: <%= operated_files_path + '/monitor_schedule_update.lock' %>
+
+map:
+  client:
+    PathtoMonitor: PathtoMonitor
+    ServerHostIP: ServerHostIP
+    ServerHostPort: ServerHostPort
+    UserID: UserID
+    Password: Password
+    TestString: TestString
+    SuccessEMailAddress: SuccessEMailAddress
+    SuccessEMailText: SuccessEMailText
+    FailureEmailAddress: FailureEmailAddress
+    TestEmailAddress: TestEmailAddress
+    ArchivePath: ArchivePath
+    ToBeActionedDirectory: ToBeActionedDirectory
+  schedule:
+    ClientID: ClientID
+    FileType: FileType
+    Frequence: Frequence
+    ExecuteDate: ExecuteDate
+    ExecuteTime: ExecuteTime
+    IntervalTime: InvervalTime
+    IntervalUnit: IntervalUnit
+    StartAt: StartAt
+    Status: Status

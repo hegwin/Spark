@@ -1,4 +1,6 @@
 *.swp
+*~
+*update.lock
 log/*.log
 nohup.*
 nohup

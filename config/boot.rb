@@ -13,11 +13,16 @@ end
 ENV["RACK_ENV"] ||= "development"
 
 configure do
+# settings
+  enable :sessions
+  set :root, File.expand_path(".")
+  set :views, settings.root + '/app/views'
+
 # loading configures
   if test? 
-    configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
+    configures = YAML.load(ERB.new(File.read(settings.root + '/spec/fixtures/config/config.yml')).result)
   else
-    configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
+    configures = YAML.load(File.read(settings.root + '/config/config.yml'))
   end
   CLIENTS_FILE = configures["path"]["clients_file"]
   SCHEDULES_PATH = configures["path"]["schedules_file"]
@@ -33,9 +38,4 @@ configure do
   WEEKDAYS = {"0"=> "Sunday", "1" => "Monday", "2" => "Tuesday", "3" => "Wednesday", "4" => "Thursday", "5" => "Friday", "6" => "Saturday" }
   STATUS = %w[enabled disabled]
   TIME_UNIT = %w[hour minute]
-
-# settings
-  enable :sessions
-  set :root, File.expand_path(".")
-  set :views, settings.root + '/app/views'
 end

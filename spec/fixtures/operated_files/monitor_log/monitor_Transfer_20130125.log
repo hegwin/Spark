@@ -1,0 +1,11 @@
+client1
+Thu Dec 20 15:23:57 CST 2012 ./CC_communications is being uploaded to subdirectory "pdfs"
+client Thu Dec 20 15:23:57 CST 2012 CC_communications failed to upload to subdirectory "pdfs"
+client1
+Thu Dec 20 15:27:06 CST 2012 ./CC_communications is being uploaded to subdirectory "pdfs"
+client2 Thu Dec 20 15:27:06 CST 2012 CC_communications failed to upload to subdirectory "pdfs"
+client1
+client Thu Dec 20 13:30:28 CST 2012 ./MEDPRO_CC_DTPDetail.txt is being uploaded to subdirectory "dtp"
+client Thu Dec 20 13:30:28 CST 2012 MEDPRO_CC_DTPDetail was successfully uploaded to subdirectory "dtp"
+client Thu Dec 20 13:30:28 CST 2012 ./MEDPRO_Communications_123.txt is being uploaded to subdirectory "communication"
+client2 Thu Dec 20 13:30:28 CST 2012 MEDPRO_Communications_123.txt was successfully uploaded to subdirectory "communication"
