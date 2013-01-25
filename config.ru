@@ -1,2 +1,2 @@
-require File.join(File.dirname(__FILE__), 'application')
+require File.join(File.dirname(__FILE__), 'config/boot.rb')
 run Sinatra::Application
