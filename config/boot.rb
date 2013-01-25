@@ -10,9 +10,15 @@ Dir.glob "./{lib,app/helpers,app/controllers}/**/*.rb" do |f|
   require f
 end
 
+ENV["RACK_ENV"] ||= "development"
+
 configure do
 # loading configures
-  configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
+  if test? 
+    configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
+  else
+    configures = YAML.load(File.read(File.dirname(__FILE__) + '/config.yml'))
+  end
   CLIENTS_FILE = configures["path"]["clients_file"]
   SCHEDULES_PATH = configures["path"]["schedules_file"]
   LOCK_FILE = configures["path"]["lock_file"]

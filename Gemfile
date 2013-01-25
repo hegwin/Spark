@@ -9,3 +9,8 @@ gem 'sinatra-flash'
 gem 'sinatra-redirect-with-flash'
 
 gem 'fileutils', '~> 0.7'
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+end
