@@ -25,7 +25,7 @@ describe 'ApplicationController' do
   end
 
   it "should visit successfully with proper credentials" do
-    authorize 'thrall', 'horde'
+    authorize 'thrall', 'password'
     get '/schedules'
     last_response.should be_ok
     last_response.body.should =~ /Schedules List/
