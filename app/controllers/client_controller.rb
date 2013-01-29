@@ -6,9 +6,9 @@ end
 # REVIEW
 post '/clients/update' do
   FileUtils.cp CLIENTS_FILE, CLIENTS_FILE.gsub(/.ini/, '.ini_backup')
-  FileUtils.cp SCHEDULES_PATH, SCHEDULES_PATH.gsub(/\.ini/, '.ini_backup')
+  FileUtils.cp SCHEDULES_FILE, SCHEDULES_FILE.gsub(/\.ini/, '.ini_backup')
   ini_file = IniFile.new(nil, filename: CLIENTS_FILE)
-  schedules = IniFile.load(SCHEDULES_PATH)
+  schedules = IniFile.load(SCHEDULES_FILE)
   begin
     ini_file.sections.each {|s| ini_file.delete_section s}
     params['sections'].each do |k, v|
@@ -27,7 +27,7 @@ post '/clients/update' do
     redirect '/clients', :success => "Clients updated successfully"
   rescue
     FileUtils.cp CLIENTS_FILE.gsub(/.ini/, '.ini_backup'), CLIENTS_FILE
-    FileUtils.cp SCHEDULES_PATH.gsub(/\.ini/, '.ini_backup'), SCHEDULES_PATH
+    FileUtils.cp SCHEDULES_FILE.gsub(/\.ini/, '.ini_backup'), SCHEDULES_FILE
     redirect '/clients', :error => "Failed to update, nothing changed"
   end
 end

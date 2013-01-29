@@ -27,7 +27,7 @@ configure do
     USER = YAML.load(File.read(File.dirname(__FILE__) + '/user.yml'))
   end
   CLIENTS_FILE = configures["path"]["clients_file"]
-  SCHEDULES_PATH = configures["path"]["schedules_file"]
+  SCHEDULES_FILE = configures["path"]["schedules_file"]
   LOCK_FILE = configures["path"]["lock_file"]
   LOG_PATH_PREFIX = configures["path"]["log_prefix"]
   CLIENT_KEYS = configures["map"]["client"]
