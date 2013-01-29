@@ -13,5 +13,5 @@ gem 'fileutils', '~> 0.7'
 group :test do
   gem 'rspec'
   gem 'rack-test'
-  gem 'nokogiri'
+  gem 'capybara', '~> 1.1.2'
 end
