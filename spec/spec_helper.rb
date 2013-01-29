@@ -17,5 +17,6 @@ RSpec.configure do |config|
   config.before do
     FileUtils.cp CLIENTS_FILE.gsub(/\.ini$/, '.fixture.ini'), CLIENTS_FILE
     FileUtils.cp SCHEDULES_FILE.gsub(/\.ini$/,'.fixture.ini'), SCHEDULES_FILE
+    FileUtils.rm LOCK_FILE if File.exist? LOCK_FILE
   end
 end

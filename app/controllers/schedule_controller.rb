@@ -15,7 +15,7 @@ get '/schedules' do
 end
 
 get '/schedules/new' do
-  client_file = IniFile.load(CLIENTSS_FILE)
+  client_file = IniFile.load(CLIENTS_FILE)
   @clients = client_file.sections
   @schedule = {}
   erb :'schedules/new'
