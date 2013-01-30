@@ -6,3 +6,7 @@ nohup.*
 nohup
 config/config.yml
 config/user.yml
+
+fixtures/operated_files/*.ini_backup
+fixtures/operated_files/clients.ini
+fixtures/operated_files/schedules.ini
